@@ -8,15 +8,9 @@ namespace ChartControls.TagHelpers
 {
     public class ChartTagHelper: TagHelper
     {
-        private IEnumerable<PropertyInfo> Properties => Source.First().GetType().GetProperties();
-        private PropertyInfo XProperty => Properties.First();
-        private IEnumerable<PropertyInfo> YProperties => Properties.Skip(1);
-        
-        private IList<string> Keys => Properties.Select(p=>p.Name).ToList();
-        
-        private string XKey => Keys.First();
-        
-        private IList<string> YKeys => Keys.Skip(1).ToList();
+        private IList<PropertyInfo> Properties => Source.First().GetType().GetProperties().ToList();
+
+        private IList<string> PropertyNames => Properties.Select(p => p.Name).ToList();
         
         [HtmlAttributeName("id")]
         public string Id { get; set; }
@@ -34,6 +28,12 @@ namespace ChartControls.TagHelpers
         {
             output.Attributes.SetAttribute("id", Id);
             output.TagName = "div";
+            
+            if (Source == null)
+            {
+                return;
+            }
+            
             if (Type == ChartType.Donut)
             {
                 output.PostElement.AppendHtml($@"
@@ -48,15 +48,18 @@ Morris.{Type}({{
             }
             else
             {
-                 output.PostElement.AppendHtml($@"
+                var xKey = PropertyNames.First();
+                var yKeys = PropertyNames.Skip(1).ToList();
+                
+                output.PostElement.AppendHtml($@"
 <script>
 Morris.{Type}({{
   element: '{Id}',
   data: [
     {ConstructChartData()}
   ],
-  xkey: '{XKey}',
-  ykeys: [{String.Join(",",YKeys.Select(p=> "'" + p + "'"))}],
+  xkey: '{xKey}',
+  ykeys: [{String.Join(",",yKeys.Select(p=> "'" + p + "'"))}],
   labels: [{String.Join(",",Labels.Split(',').Select(l => "'" + l + "'"))}]
 }});
   </script>");
@@ -74,8 +77,12 @@ Morris.{Type}({{
         
         private string ConstructChartData()
         {
+            var xKey = PropertyNames.First();
+            var xProperty = Properties.First();
+            var yProperties = Properties.Skip(1);
+            
             return String.Join(",", 
-                Source.Select(s => $"{{{XKey}:'{XProperty.GetValue(s)}', " + String.Join(",", YProperties.Select(p => p.Name + ":" + p.GetValue(s))) + "}"
+                Source.Select(s => $"{{{xKey}:'{xProperty.GetValue(s)}', " + String.Join(",", yProperties.Select(p => p.Name + ":" + p.GetValue(s))) + "}"
             ));
         }
     }
