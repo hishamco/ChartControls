@@ -1,0 +1,68 @@
+@using System;
+@using System.Linq;
+@using ChartControls;
+
+@addTagHelper *, ChartControls
+
+@{  
+    var data1 = new[]
+    {
+        new { month = "2016-1", value = 34},
+        new { month = "2016-2", value = 24},
+        new { month = "2016-3", value = 3},
+        new { month = "2016-4", value = 12},
+        new { month = "2016-5", value = 13},
+        new { month = "2016-6", value = 22},
+        new { month = "2016-7", value = 5},
+        new { month = "2016-8", value = 26},
+    };
+    
+    var data2 = new[]
+    {
+        new { year = "2014", a = 2, b = 8, c = 1},
+        new { year = "2015", a = 1, b = 11, c = 3},
+        new { year = "2016", a = 0, b = 22, c = 0}
+    };
+    
+    var data3 = new[]
+    {
+        new { year = "2016-1", i = 100, pr = 34, c = 12},
+        new { year = "2016-2", i = 75, pr = 11, c = 3},
+        new { year = "2016-3", i = 50, pr = 99, c = 7},
+        new { year = "2016-4", i = 75, pr = 56, c = 1},
+        new { year = "2016-5", i = 24, pr = 0, c = 54},
+        new { year = "2016-6", i = 75, pr = 31, c = 3},
+        new { year = "2016-7", i = 100, pr = 77, c = 44}
+    };
+    
+    var data4 = new[]
+    {
+        new { label = "Followers", value = 78},
+        new { label = "Following", value = 131},
+        new { label = "Starred", value = 16}
+    };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="~/js/raphael-min.js"></script>
+<script src="~/js/jquery-1.8.2.min.js"></script>
+<script src="~/js/morris-0.4.1.min.js"></script>
+<link rel="stylesheet" href="~/css/morris.css">
+<meta charset=utf-8 />
+<title>Morris.js Chart Examples</title>
+<style>
+    #line-example,#bar-example,#donut-example,#area-example{
+        width:650px;
+        float: left;
+    }    
+</style>
+</head>
+<body>
+    <chart id="line-example" type="Line" labels="Value" source="@data1"></chart>
+    <chart id="area-example" type="Area" labels=".NET Core,ASP.NET Core,EntityFramework Core" source="@data2"></chart>
+    <chart id="bar-example" type="Bar" labels="Issues,Pull Requests,Comments" source="@data3"></chart>
+    <chart id="donut-example" type="Donut" source="@data4"></chart>
+</body>
+</html>

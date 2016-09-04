@@ -1,0 +1,1 @@
+            /* comment */ console.log( 1 );   
