@@ -17,4 +17,4 @@ Chart Controls using TagHelpers &amp; morris.js
 
 ![DonutChartScreenShot](https://raw.githubusercontent.com/hishamco/ChartControls/master/ScreenShots/Donut.png)
 
-[http://en.هشام.com/post/chart-controls-using-taghelpers--morrisjs](http://en.هشام.com/post/chart-controls-using-taghelpers--morrisjs)
+[http://hishambinateya.com/chart-controls-using-taghelpers-and-morris.js](http://hishambinateya.com/chart-controls-using-taghelpers-and-morris.js)
